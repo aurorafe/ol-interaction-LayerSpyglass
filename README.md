@@ -27,8 +27,8 @@ npm run build
 ### CDN
 
 ```bash
-https://unpkg.com/ol-interaction-layerspyglass@1.0.0/dist/ol-control-CompareLayer.min.js
-https://unpkg.com/ol-interaction-layerspyglass@1.0.0/dist/ol-control-CompareLayer.js
+https://unpkg.com/ol-interaction-layerspyglass@1.0.0/dist/ol-interaction-LayerSpyglass.min.js
+https://unpkg.com/ol-interaction-layerspyglass@1.0.0/dist/ol-interaction-LayerSpyglass.js
 ```
 
 ### NPM
