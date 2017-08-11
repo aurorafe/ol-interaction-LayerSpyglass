@@ -3,7 +3,7 @@
 [![Build Status](https://www.travis-ci.org/aurorafe/ol-interaction-LayerSpyglass.svg?branch=master)](https://www.travis-ci.org/aurorafe/ol-interaction-LayerSpyglass)
 [![NPM](https://nodei.co/npm/ol-interaction-layerspyglass.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ol-interaction-layerspyglass/)
 
-> 提供叠加的多个图层的对比查看（参考openlayers官方[示例](https://openlayers.org/en/latest/examples/layer-spy.html)）
+> 提供图层滤镜功能（参考openlayers官方[示例](https://openlayers.org/en/latest/examples/layer-spy.html)）
 
 ## build
 
