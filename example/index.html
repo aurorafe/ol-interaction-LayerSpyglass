@@ -12,9 +12,21 @@
       padding: 0;
       margin: 0;
     }
+    .tool {
+      position: absolute;
+      top: 10px;
+      left: calc(50% - 290px);
+    }
+    .ol-viewport {
+      position: inherit!important;
+    }
   </style>
 </head>
 <body>
+<div class="tool">
+  <button onclick="_addInteraction()">添加滤镜</button>
+  <button onclick="_removeInteraction()">移除滤镜</button>
+</div>
 <div class="map" id="map"></div>
 <script src="../node_modules/openlayers/dist/ol.js"></script>
 <script src="../dist/ol-interaction-LayerSpyglass.js"></script>
@@ -30,24 +42,38 @@
     })
   })
   var map = new ol.Map({
-    layers: [
-      firstLayer,
-      sec
-    ],
+    layers: [firstLayer, sec],
     target: 'map',
     view: new ol.View({
-      center: [0, 0],
-      zoom: 2
+      center: ol.proj.fromLonLat([-109, 46.5]),
+      zoom: 6
     })
+  });
+
+  sec.on('precompose', function(event) {
+    var ctx = event.context;
+    ctx.save();
+    ctx.beginPath();
+    ctx.clip();
+  });
+
+  // after rendering the layer, restore the canvas context
+  sec.on('postcompose', function(event) {
+    var ctx = event.context;
+    ctx.restore();
   });
 
   var LayerSpyglass = new ol.interaction.LayerSpyglass({
     spyLayer: sec
   });
 
-  var DragZoom = new ol.interaction.DragZoom()
-  map.addInteraction(LayerSpyglass);
-  map.addInteraction(DragZoom);
+  function _addInteraction () {
+    map.addInteraction(LayerSpyglass);
+  }
+
+  function _removeInteraction () {
+    map.removeInteraction(LayerSpyglass);
+  }
 </script>
 </body>
 </html>
