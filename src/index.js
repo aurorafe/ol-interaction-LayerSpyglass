@@ -3,8 +3,7 @@
  * @desc 图层滤镜
  */
 
-import * as Events from 'nature-dom-util/src/Events'
-
+import DomUtils from 'nature-dom-util/dist/DomUtils'
 ol.interaction.LayerSpyglass = function (params) {
   this.options = params || {}
   if (this.options['spyLayer']) {
@@ -12,6 +11,13 @@ ol.interaction.LayerSpyglass = function (params) {
   } else {
     throw new Error('图层必须传入！')
   }
+
+  /**
+   * 当前图层所在位置
+   * @type {null}
+   * @private
+   */
+  this._currentLayerIndex = null
 
   /**
    * 默认滤镜半径
@@ -89,13 +95,24 @@ ol.interaction.LayerSpyglass.handleEvent_ = function (evt) {
  * @private
  */
 ol.interaction.LayerSpyglass.prototype.initEvents_ = function () {
-  Events.listen(this.getMap().getTargetElement(), 'mouseout', this.handleMouseOut_, this)
-  Events.listen(document, 'keydown', this.handleKeyDown_, this)
-  this.spyLayer.setVisible(true)
-  // before rendering the layer, do some clipping
-  this.spyLayer.on('precompose', this.handlePrecompose_, this)
-  // after rendering the layer, restore the canvas context
-  this.spyLayer.on('postcompose', this.handlePostcompose_, this)
+  if (this.getMap()) {
+    DomUtils.Events.listen(this.getMap().getTargetElement(), 'mouseout', this.handleMouseOut_, this)
+    DomUtils.Events.listen(document, 'keydown', this.handleKeyDown_, this)
+    let layers = this.getMap().getLayers().getArray()
+    let layerIndexs = []
+    this._currentLayerIndex = this.spyLayer.getZIndex()
+    layers.every(layer => {
+      layerIndexs.push(layer.getZIndex())
+    })
+    let maxIndex = Math.max.apply(Math, layerIndexs)
+    // 保证滤镜图层在最上层
+    this.spyLayer.setZIndex(maxIndex + 10)
+    this.spyLayer.setVisible(true)
+    // before rendering the layer, do some clipping
+    this.spyLayer.on('precompose', this.handlePrecompose_, this)
+    // after rendering the layer, restore the canvas context
+    this.spyLayer.on('postcompose', this.handlePostcompose_, this)
+  }
 }
 
 /**
@@ -165,13 +182,15 @@ ol.interaction.LayerSpyglass.prototype.setMap = function (map) {
     ol.interaction.Interaction.prototype.setMap.call(this, map)
     this.initEvents_()
   } else {
-    Events.unListen(this.getMap().getTargetElement(), 'mouseout', this.handleMouseOut_, this)
-    Events.unListen(document, 'keydown', this.handleKeyDown_, this)
+    DomUtils.Events.unListen(this.getMap().getTargetElement(), 'mouseout', this.handleMouseOut_, this)
+    DomUtils.Events.unListen(document, 'keydown', this.handleKeyDown_, this)
     // before rendering the layer, do some clipping
     this.spyLayer.un('precompose', this.handlePrecompose_, this)
     // after rendering the layer, restore the canvas context
     this.spyLayer.un('postcompose', this.handlePostcompose_, this)
     this.spyLayer.setVisible(false)
+    this.spyLayer.setZIndex(this._currentLayerIndex)
+    this._currentLayerIndex = null
     ol.interaction.Interaction.prototype.setMap.call(this, map)
   }
 }

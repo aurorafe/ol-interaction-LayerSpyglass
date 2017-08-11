@@ -1,9 +1,9 @@
-# openlayers 扩展 图层对比控件
+# openlayers 扩展图层滤镜功能
 
-[![Build Status](https://www.travis-ci.org/aurorafe/ol-control-CompareLayer.svg?branch=master)](https://www.travis-ci.org/aurorafe/ol-control-CompareLayer)
-[![NPM](https://nodei.co/npm/ol-control-comparelayer.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ol-control-comparelayer/)
+[![Build Status](https://www.travis-ci.org/aurorafe/ol-interaction-LayerSpyglass.svg?branch=master)](https://www.travis-ci.org/aurorafe/ol-interaction-LayerSpyglass)
+[![NPM](https://nodei.co/npm/ol-interaction-layerspyglass.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ol-interaction-layerspyglass/)
 
-> 提供叠加的多个图层的对比查看
+> 提供叠加的多个图层的对比查看（参考openlayers官方[示例](https://openlayers.org/en/latest/examples/layer-spy.html)）
 
 ## build
 
@@ -12,7 +12,7 @@
 ---
 
 ```bash
-git clone https://github.com/aurorafe/ol-control-CompareLayer.git
+git clone https://github.com/aurorafe/ol-interaction-LayerSpyglass.git
 npm install
 npm run dev
 npm run build
@@ -20,44 +20,46 @@ npm run build
 
 ## Use
 
-> `ol.control.CompareLayer(beforeMap, afterMap, options)`
+> `ol.interaction.LayerSpyglass(options)`
+
+> tip: 需要放到滤镜中的图层必须显示的定义visible为不可见。
 
 ### CDN
 
 ```bash
-https://unpkg.com/ol-control-comparelayer@1.0.0/dist/ol-control-CompareLayer.min.js
-https://unpkg.com/ol-control-comparelayer@1.0.0/dist/ol-control-CompareLayer.js
-https://unpkg.com/ol-control-comparelayer@1.0.0/dist/static/css/ol-control-CompareLayer.css
-https://unpkg.com/ol-control-comparelayer@1.0.0/dist/static/css/ol-control-CompareLayer.min.css
+https://unpkg.com/ol-interaction-layerspyglass@1.0.0/dist/ol-control-CompareLayer.min.js
+https://unpkg.com/ol-interaction-layerspyglass@1.0.0/dist/ol-control-CompareLayer.js
 ```
 
 ### NPM
 
 ```bash
-npm install ol-control-comparelayer --save
-import 'ol-control-comparelayer'
+npm install ol-interaction-layerspyglass --save
+import 'ol-interaction-layerspyglass'
 ```
 
 ## Examples
 
-[![demo](https://raw.githubusercontent.com/aurorafe/ol-control-CompareLayer/master/asset/demo.gif)](https://codepen.io/sakitam-fdd/pen/brWPWX)
+[![demo](https://raw.githubusercontent.com/aurorafe/ol-interaction-LayerSpyglass/master/asset/demo.png)](https://codepen.io/sakitam-fdd/pen/mMwGoV)
 
 其他示例请参看example文件夹
 
-#### Parameters:
+## options:
 
 | key | type | desc |
 | :--- | :--- | :---------- |
-| `beforeMap` | `Object` | 前置图层对象 |
-| `afterMap` | `Object` | 后置图层对象 |
-| `params` | `Object` | 相关控件配置 |
-| `params['className']` | `String` | 控件类名，默认``hmap-compare``  |
-| `params['target']` | `String` | 目标dom |
-| `params['initPosition']` | `Number` | 控件初始在视图位置距左边比例，默认``0.5`` |
+| `spyLayer` | `Object` | 滤镜中图层 |
+| `radius` | `Number` | 滤镜半径，默认 ``75`` |
+| `minRadius` | `Number` | 滤镜可调整最小半径，默认 ``25`` |
+| `maxRadius` | `Number` | 滤镜可调整最大半径，默认 ``150`` |
+| `lineWidth` | `Number` | 滤镜边框宽度，默认 ``5`` |
+| `strokeStyle']` | `String` | 滤镜默认边框颜色，默认 ``rgba(0, 0, 0, 0.5)`` |
+| `zoomInKeyCode']` | `Number` | 键盘控制滤镜放大对应的keyCode，默认为 ``38`` 方向上 |
+| `zoomOutKeyCode']` | `Number` | 键盘控制滤镜缩小对应的keyCode，默认为 ``40`` 方向下 |
 
-#### Extends
+## Extends
 
-> `ol.control.Control`
+> `ol.interaction.Pointer`
 
 #### Methods
 
@@ -71,26 +73,3 @@ import 'ol-control-comparelayer'
 | :--- | :--- | :---------- |
 | `map` | `ol.Map` | 地图实例 |
 
-##### `setBeforeLayet(beforeMap)`
-
-> 设置前置地图图层
-
-###### Parameters:
-
-| key | type | desc |
-| :--- | :--- | :---------- |
-| `beforeMap` | `Object` | 前置地图图层 |
-
-##### `setAfterLayer(afterMap)`
-
-> 设置后置地图图层
-
-###### Parameters:
-
-| key | type | desc |
-| :--- | :--- | :---------- |
-| `afterMap` | `Object` | 后置地图图层 |
-
-##### `orderLayerZindex()`
-
-> 调整前置图层和后置图层顺序，避免后置图层压盖前置图层

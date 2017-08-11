@@ -21,11 +21,7 @@ let outputFile
 
 if (env === 'build') {
   plugins.push(new UglifyJsPlugin({
-    minimize: true,
-    compress: {
-      warnings: false
-    },
-    sourceMap: true
+    minimize: false
   }))
   outputFile = libraryName + '.min.js'
 } else {

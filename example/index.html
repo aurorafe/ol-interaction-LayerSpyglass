@@ -31,17 +31,16 @@
 <script src="../node_modules/openlayers/dist/ol.js"></script>
 <script src="../dist/ol-interaction-LayerSpyglass.js"></script>
 <script type="text/javascript">
+  var key = 'As1HiMj1PvLPlqc_gtM7AqZfBL8ZL3VrjaS3zIb22Uvb9WKhuJObROC-qUpa81U5';
+
   var firstLayer = new ol.layer.Tile({
-    visible: false,
-    source: new ol.source.OSM({
-      url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    })
-  })
+    source: new ol.source.BingMaps({key: key, imagerySet: 'Road'})
+  });
+
   var sec = new ol.layer.Tile({
-    source: new ol.source.OSM({
-      url: 'http://tile-{a-c}.openstreetmap.fr/hot/{z}/{x}/{y}.png'
-    })
-  })
+    visible: false,
+    source: new ol.source.BingMaps({key: key, imagerySet: 'Aerial'})
+  });
   var map = new ol.Map({
     layers: [firstLayer, sec],
     target: 'map',
@@ -52,7 +51,7 @@
   });
 
   var LayerSpyglass = new ol.interaction.LayerSpyglass({
-    spyLayer: firstLayer
+    spyLayer: sec
   });
 
   function _addInteraction () {
