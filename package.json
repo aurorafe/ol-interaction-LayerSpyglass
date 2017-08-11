@@ -1,6 +1,6 @@
 {
   "name": "ol-interaction-layerspyglass",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "openlayers layerspyglass",
   "main": "src/index.js",
   "scripts": {
