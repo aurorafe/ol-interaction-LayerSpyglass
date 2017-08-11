@@ -91,6 +91,7 @@ ol.interaction.LayerSpyglass.handleEvent_ = function (evt) {
 ol.interaction.LayerSpyglass.prototype.initEvents_ = function () {
   Events.listen(this.getMap().getTargetElement(), 'mouseout', this.handleMouseOut_, this)
   Events.listen(document, 'keydown', this.handleKeyDown_, this)
+  this.spyLayer.setVisible(true)
   // before rendering the layer, do some clipping
   this.spyLayer.on('precompose', this.handlePrecompose_, this)
   // after rendering the layer, restore the canvas context
@@ -170,6 +171,7 @@ ol.interaction.LayerSpyglass.prototype.setMap = function (map) {
     this.spyLayer.un('precompose', this.handlePrecompose_, this)
     // after rendering the layer, restore the canvas context
     this.spyLayer.un('postcompose', this.handlePostcompose_, this)
+    this.spyLayer.setVisible(false)
     ol.interaction.Interaction.prototype.setMap.call(this, map)
   }
 }

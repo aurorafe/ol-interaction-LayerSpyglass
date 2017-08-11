@@ -32,6 +32,7 @@
 <script src="../dist/ol-interaction-LayerSpyglass.js"></script>
 <script type="text/javascript">
   var firstLayer = new ol.layer.Tile({
+    visible: false,
     source: new ol.source.OSM({
       url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     })
@@ -50,21 +51,8 @@
     })
   });
 
-  sec.on('precompose', function(event) {
-    var ctx = event.context;
-    ctx.save();
-    ctx.beginPath();
-    ctx.clip();
-  });
-
-  // after rendering the layer, restore the canvas context
-  sec.on('postcompose', function(event) {
-    var ctx = event.context;
-    ctx.restore();
-  });
-
   var LayerSpyglass = new ol.interaction.LayerSpyglass({
-    spyLayer: sec
+    spyLayer: firstLayer
   });
 
   function _addInteraction () {
